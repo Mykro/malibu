@@ -1,0 +1,91 @@
+Malibu Data Format
+
+Based on Wesnoth WML.
+
+-------------------------------------------------------------------------------------
+[game_config]													// defines user-configurable behaviours within the game
+
+mortgage_fee=0.0
+unmortgage_fee=0.1
+houserule_tax_to_free_parking=0
+starting_properties_deal=0
+
+
+-------------------------------------------------------------------------------------
+[board_type]													// defines a board (classic, aussie, custom, etc)
+
+free_parking_property=freeparking
+free_parking_stash=freeparkingstash
+taxchoice_destination=freeparkingstash
+
+[property]														// defines a single property on the board
+name=go
+next_property=oldkent
+player_pass_income=200
+
+[property]														
+name=oldkent
+next_property=comm1
+purchase_cost=30
+mortgage_value=15
+
+[property]														
+name=chest1
+next_property=whitechapel
+
+[property]														
+name=whitechapel
+next_property=tax1
+purchase_cost=60
+mortgage_value=30
+
+[property]														
+name=tax1
+next_property=kingscross
+player_landing_payment=taxchoice
+
+[property]														
+name=freeparking
+next_property=....
+player_landing_income_stash=freeparkingstash
+
+[stash]															// defines a place that accrues & pays out money 
+name=freeparkingstash
+
+[payment]
+name=taxchoice
+payment_option=200
+payment_option=(player_networth*0.1)							// calculated on the spot
+payment_destination=freeparkingstash,houserule_tax_to_free_parking
+payment_destination=bank, 1-houserule_tax_to_free_parking			// dest, multiplier
+
+[payment]
+name=houses1
+payment_option=(player_houses*40) + ( player_hotels * 100)		// calculated on the spot
+payment_destination=bank
+
+[payment]
+name=chairman
+payment_option=50
+payment_destination=all_opponents								// or: selected_opponent, next_opponent, etc....
+
+[card]
+name=tax
+
+[card]
+name=housescard1
+
+
+-------------------------------------------------------------------------------------
+[strings]
+go=GO
+oldkent=Old Kent Road
+comm1=Community Chest
+freeparking=Free Parking
+
+
+-------------------------------------------------------------------------------------
+CONSTANTS
+
+
+-------------------------------------------------------------------------------------

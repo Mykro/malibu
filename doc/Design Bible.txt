@@ -1,0 +1,380 @@
+MALIBU DESIGN BIBLE
+===================
+
+GENERAL REQUIREMENTS
+====================
+
+1. Server and Client applications, both open-source.
+2. The Server application will be in Java (Windows, Mac, Linux).
+3. Almost no restriction on potential client platforms: Windows, Mac, Linux, Android, iOS, Windows Mobile.  
+4. Provide a reference console client in Java (Windows, Mac, Linux).
+5. Provide a reference GUI client [language TBD]
+6. Servers and Clients share a Model.
+
+SERVER REQUIREMENTS
+===================
+1. Provide TCP/IP socket for client connections.
+2. Authenticate clients.
+3. Provide a lobby for clients to connect and interact.
+4. Client can initiate a session.
+5. Other clients can join the session.
+6. Client can start the session.
+7. Continuously execute the session.
+8. Inform clients of actions they can execute.
+9. Prevent clients from executing unauthorised actions.
+
+
+[Server]
+  Model
+    - encodes every single state in the game
+      
+  Controller
+    - registers action handlers with client controllers
+    - runs the game loop in 1 thread
+    - publishes model updates to client controllers
+    - receive actions from client controllers in action handlers
+      and process them as part of the game loop
+
+  View
+    - no view
+    - OR: view is simply the interface with clients, ie.
+      "drawing view" is publishing the model to clients
+      
+
+CLIENT REQUIREMENTS
+===================
+1. Connect to a Server.
+
+
+[Client]
+  Model
+    - for now, same as server
+    - Eventually: cut down version of model suitable for the 
+      client's consumption.  Some things may not be visible to the
+      client - eg other players hands, bank, etc.
+
+  Client Controller
+  
+  View
+
+    ConsoleController (ClientController)
+    - controls a ConsoleView
+    - has 1 thread to manage user input and update display at each prompt
+      
+    GUIController (ClientController)
+    - controls the GUI View
+    - might have many threads to process kb/mouse input and repaint display
+  
+ACTIONS
+=======
+
+Actions are choices made available at certain times to clients.
+
+As such, Actions are part of the shared model.
+
+Actions are:
+- View their position (client side)
+- View another player's visible position (client side)
+- Roll the dice
+- Pay Jail Fee
+- Buy property
+- Send property to auction
+- Bid on Auction
+    + amount to bid
+- Propose Trade (or re-propose trade)
+    + items to trade
+- Accept Trade (or reject trade)
+- Buy House
+    + property or property group
+    + number of houses
+- Sell House
+    + property or property group
+    + number of houses
+- Sell Card
+    + card
+- Mortgage Property
+    + property
+- Unmortgage Property
+    + property
+- Settle Debts (after raising cash)
+- End Turn
+- Quit Game
+
+Notes:
+- Some actions require additional information, as indicated by "+".
+- The availability of Actions is affected by the ruleset.  For example the Buy Property & Send Property To Auction 
+  actions are mutually exclusive but under traditional rules one is mandatory, whereas in some house rules 
+  they are optional, ie. it is possible to do neither.
+- The server will keep track of a client's available actions and will update the client when their available actions changes.
+- The server will accept actions from a client and re-validate them to ensure they are still valid, before executing them.
+
+Custom Actions, e.g. for Capitol Hill:
+- Sponsor a Bill (only when on specific space(s))
+    + selected bill to pass or repeal
+- Support a Sponsored Bill
+    + sponsored bill to support
+- Pass A Sponsored Bill (sponsor only) ==> roll dice
+
+ACTION EXECUTORS
+================
+
+Action Executors are used to pre-validate and execute an Action. 
+
+Action Executors belong to the Engine, thus they can validate the Action against the world and the ruleset.
+
+Clients don't know anything about action executors.  They are a server-only concept.  
+The server will take an Action from a client and use its corresponding Action Executor.
+
+Action Executors execute one or more transitions.
+
+
+
+TRANSITIONS
+===========
+
+Transitions are used to move the Engine from one state to another.  
+Everything that manipulates the Engine should be done with a Transition.
+
+Clients don't know anything about transitions.  They are a server-only concept.  
+
+Transitions assume minimal pre-validation.  This provides flexibility in the rule set.  For example, 
+they shouldn't assume the current player is the one drawing a card.  
+
+A Transition may fail - it does not assume or require a pre-validation.  Whatever initiated the Transition must take care of the failure.
+
+Transitions can nest other transitions (?).
+
+Transitions can include:
+- Roll dice
+- advance token X spaces
+- "land" token (submit to the space's landing transition)
+- pay fee
+- draw card
+- end turn
+- go to jail
+- mortgage property
+- unmortgage property
+- buy house
+- Sell House
+
+INSTRUCTIONS
+============
+
+Instructions are similar to actions, but ones that are executed by a drawn card.  
+
+As a result they require very little pre-validation.
+
+Instructions are part of the shared model.
+
+- Advance To Property
+- Advance To First Property In A Group (utility, railroad)
+- Advance X spaces (backwards or forward)
+- After Advance Pay X * Rent
+- After Advance Pay X * Y Dice Roll in Rent
+- Player Cash Adjustment
+- All Rivals Cash Adjustment
+- Player Cash Adjustment Based On Houses
+- Player Cash Adjustment Based On Net Worth
+- Player Cash Adjustment Based On Dice Roll	
+- Go To Jail
+- Keep Card for Later Use (along with deferred instructions, and some kind of isPlayable validation)
+- Get Out Of Jail (deferred instruction, played later)
+
+MODIFIERS
+=========
+
+Modifiers provide dynamic, configurable behaviour to the engine.
+
+The modifiers are defined in the engine alongside the action executors and the transitions.
+
+Almost any common house rule or total conversion variation can be defined using modifiers.  
+
+House rules that CANNOT be defined:
+- Any rules that require "fast reaction" by players, ie. demanding rent before the next roll.  This is because 
+  the online system is too easy to game so that players are deprived of reaction time.
+
+Modifiers could in theory be turned on and off during the game (ie. Capitol Hill variation).
+
+Modifiers aim to be board agnostic, so rather than specify dollar amounts, use multipliers and percentages where possible.
+All multipliers default to 1.00, and percentages default to 0.
+
+Proposed Modifiers:
+- [SGR-1] Pre-Deal Properties		(1..N)
+- [SGR-2] Disable Fourth House		(Y=go from 3 houses to hotel.)
+- [SGR-3] Maximum Jail Turns		(1..N, where 1 means must exit on next turn)
+- [SGR-5] End On First Bankruptcy	(Y=Winner judged by calculation -see ENGINE section)
+- [CHV-HB1] GO Asset Tax			(X% of assets less deduction of $Y based on number of players.)
+- [CHV-HB2] Free rent passes 		(1..N, number of passes per player, to be used on next landing) 
+- [CHV-HB3] Mortgage call after doubles (N, number of consecutive doubles)
+- [CHV-HB4] GO Income Multiplier. 
+- [CHV-HB4] House Cost Multiplier.
+- [CHV-HB5] Rental Income Tax (X% of all rent collected is distributed to people without houses)
+- [CHV-HB6] Property Tax 'And Is More' Act - amend the Property Tax square to $200 PLUS 10% of assets.
+- [CHV-HB7] House Pool multiplier (rounded up) - infinite if zero
+- [CHV-HB7] Hotel Pool multiplier (rounded up) - infinite if zero
+- [CHV-HB8] Bankruptcy Relief Act 
+- [MME-1] Starting Cash Multiplier. 
+- Dont Auction Properties.  Y = no further action if a player declines to buy.
+- Dont Purchase Properties.  Y = either auction or decline to buy
+- If the lander does not win at auction, they must pay rent to the winner.
+- No collecting rent while in jail.
+- No rent payable when rolling doubles (not "staying the night").
+- Property Value Multiplier.  
+- PropertyTax Multiplier.   
+- PropertyTax To Stash Percentage. (0-100)% of funds from PropertyTax squares are diverted to the default stash.  If no stash is defined on the board, a Free Parking stash is created automatically.
+- Jail Fine Multiplier.  
+- Jail Fine To Stash Percentage
+- Card Fine To Stash Percentage
+- Stash Minimum Amount - funded by bank
+- Stash Maximum Amount
+- Stash Passing Tax Amount
+- Travelling Railroads Y/N
+- End Game After N Turns 
+- End Game After First (or Last) To N Laps	(all players have to complete)
+- No purchase in first N rolls
+- No purchase in first N turns
+- No purchase Before First (or Last) To N Laps	(all players have to complete)
+- No trade until all properties are purchased.
+- Buy house without set Y/N
+- Buy hotel without all houses Y/N
+- Build only after landing on your own property (makes development v slow)
+- Snake Eyes (two ones) cash bonus $X
+- Reshuffle card piles after each iteration Y/N
+
+Modifiers with a [PREFIX] are part of a well known ruleset, so an effort is made to implement these.
+- Capitol Hill Variation [CHV-*]
+- Official Short Game Rules [SGR-*]
+- The Mega Edition [MME-*] - https://winning-moves.com/images/megamonopolyrules.pdf
+  - includes a 3rd die which has 1, 3, 6, BUS, MISTER, MISTER
+    - pips = add this to your single movement
+    - BUS = take a bus ticket, OR advance to next Chance/CC position.
+    - MISTER = perform normal die movement, then move again to next unowned prop  
+    - Rolling Triple (all 1s, 2s or 3s) - advance to any square of your choice
+    - Rolling Double - option to use bus ticket instead of advancing.
+  - New cardpile: 16 Bus Tickets. Lets you advance to any space on the SAME side of board. Does not cycle.
+  - New squares: 
+    - a new property per group. Only need to own n-1 to build Houses/Hotels.
+    - Auction - pick unowned prop to auction off.
+    - Birthday Gift - collect $100 or draw a bus ticket
+    - Bus Ticket - draw a bus ticket card
+  - New buildings:
+    - Skyscrapers if own all in group AND have hotels. Even building rule applies retrospectively.
+    - Train Depot on railroads.
+
+    
+A lot of the above is taken from: http://en.wikibooks.org/wiki/Monopoly/House_Rules see this page for clarity.
+
+
+BOARD
+=====
+
+The board is designed to be as flexible as possible.
+
+Dice:
+- There are X dice, each with its own N faces.
+- There MAY be custom dice with non-numeric faces (see Mega Edition).
+- There are some special behaviours based on the faces shown:
+  - Doubles (increments the consecutive doubles counter) - executes before moving (and may potentially cancel the movement).
+  - Snake Eyes (a common house rule) - executes as well as moving.
+  - Triples (Mega Edition) - choice of destination, executes instead of moving.
+  - Bus or Mister (Mega Edition) - appends a second movement after the first.
+  
+  TODO: Need a good way to capture these sequences.
+  - Maybe one way to do this is to define the faces individually: Face A, contributes N to roll, AND/OR triggers event/transition E.
+  - maybe create a chain of triggers, where each one can break the chain if needed.
+
+Jails:
+- There can be X Jails.
+- Each jail must have at least one Go-To-Jail square.
+- Each jail has its own ruleset for escape, either:
+  - Pay $Y fee
+  - Roll doubles
+  - Roll a specific number [not in official rules]
+
+Cardpiles:
+- There can be any number of cardpiles, with any number of cards.
+- The cardpile is a rotating sequence. 
+- In the official rules cards are reinserted face down at the bottom (it is never reshuffled).
+  (There could well be be a modifier that cards are reshuffled instead when exhausted).
+- Each card has a set of Instructions that are executed.
+- Some cards can be kept by a player, with a delayed set of Instructions.
+- Kept cards can be traded, deployed, sold unused (to the bank, who reinserts it to the cardpile).
+
+NPC Agents:
+- NPC Agents can hold assets: money, properties, cards.
+- NPC Agents can respond to events, make simple predictable decisions and interact in the session.
+- The use of NPC Agents enables a clean, closed system:
+  - An asset always has an owner.
+  - All transactions (asset transfers) have a source and destination agent.
+- NPC Agents are defined in the board configuration (or in a board "extension"?)
+- NPC Agent #1: Bank.
+  - Holds an infinite (or very large) amount of money.
+  - Holds all the properties at the start.
+  - Holds all houses/hotels at the start.
+  - Buys/sells houses/hotels to players.
+  - Always agrees to buy Get-Out-Of-Jail cards from players, and then will "gift" them back to a cardpile.
+  
+- NPC Agent #2: Free Parking Stash
+  - Typical implementation: registers to intercept taxes levied on PropertyTax squares, 
+    and pays out funds in response to events such as players landing on that square.
+  - configurable using custom boards and modifiers. 
+- Other new and interesting agents can be created (e.g. robber thief ala Catan)
+
+AI Agents:
+- AI Agents take ownership of a token.
+- AI Agents receive and respond to all the same events as regular Agents.
+- AI Agents cannot cheat as they don't have access to the server's data.
+- AI Agents are defined in their own library.
+  
+[NOT USED, see NPC Agents]
+Stashes:
+- Money can be diverted from gameplay into and from a stash, which is just a pile of money on the board.
+- The most commonly known stash is the Free Parking house rule.
+- There could be any number of stashes defined in the board.
+- If no stashes are defined on the board and one is requested by the ruleset it will be created automatically.
+
+Trades:
+- A Trade is a transfer of game assets.
+- each asset can have any source and any destination.
+- the final transaction is executed only with manual confirmation from both the seller and buyer.
+
+Auctions:
+- An Auction is based on a Trade proposal where:
+  - the starting assets have a fixed source and remain unchanged
+  - participants append a single cash bid for the assets
+- the final transaction is executed automatically as long as the reserve is met and no other bids are made.
+
+	
+ENGINE
+======
+
+Realtime Winner:
+At any time the game knows who is winning, by adding:
+  a) cash on hand; 
+  b) lots, utilities, and railroads owned, at the price printed on the board; 
+  c) any mortgaged property owned, at one-half the price printed on the board; 
+  d) houses, valued at purchase price; 
+  e) hotels, valued at purchase price including the value of the houses. 
+
+
+
+
+
+
+
+
+
+DESIGN OVERHAUL
+===============
+
+The traditional setup is heavily chance-based and offers minimal strategy element.
+
+This can be fixed by:
+- 
+
+References:
+- http://boardgamegeek.com/thread/97399/monopoly-why-its-broke-and-how-you-can-fix-it
+- http://jergames.blogspot.com.au/2008/09/10-ways-to-know-if-you-are-hack-game.html
+
+
+

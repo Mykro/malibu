@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="client/src/main/java"/>
+	<classpathentry kind="src" path="server/src/main/java"/>
+	<classpathentry kind="src" path="common/src/main/java"/>
+	<classpathentry kind="src" path="server/src/test/java"/>
+	<classpathentry kind="lib" path="common/src/main/resources/netty-all-4.0.23.Final.jar"/>
+	<classpathentry kind="lib" path="server/src/main/resources/json-simple-1.1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="server/target/classes"/>
+</classpath>

@@ -1,0 +1,91 @@
+G:1,Brown
+G:2,Cyan
+G:3,Purple
+G:4,Orange
+G:5,Red
+G:6,Yellow
+G:7,Green
+G:8,Blue
+G:9,Railroad
+G:10,Utility
+G:11,Jail
+G:12,Community Chest
+G:13,Chance
+G:14,GO
+
+# Properties: number, name|jailname, group, purchase_cost, house_cost, 
+#        empty_rent, 1house_rent, 2house, 3house, 4house, 5house
+P:1,GO,14
+P:2,Old Kent Road,1,60,50,2,10,30,90,160,250
+P:3,Community Chest,12
+P:4,Whitechapel Road,1,60,50,4,20,60,180,320,450
+P:5,Income Tax,0,200,10
+P:11,Just Visiting|Jail,11
+P:xx,Free Parking
+P:yy,Go To Jail,11
+
+
+`
+
+		props.add(new GoProperty("GO"));
+		props.add(new StreetProperty("Old Kent Road", brown, 60, 50, 2, 10, 30, 90, 160, 250 ));
+		props.add(new CommunityChestProperty("Community Chest", game.getCommunityChestCards() ));
+		props.add(new StreetProperty("Whitechapel Road", brown, 60, 50, 4, 20, 60, 180, 320, 450 ));
+		props.add(new TaxProperty("Income Tax", 200, 10));
+		props.add(new RailroadProperty("Kings Cross Station", railroad, 200,50));
+		props.add(new StreetProperty("The Angel Islington", cyan, 100, 50, 6, 30, 90, 270, 400, 550));
+		props.add(new ChanceProperty("Chance", game.getChanceCards() ));
+		props.add(new StreetProperty("Euston Road", cyan, 100, 50, 6, 30, 90, 270, 400, 550));
+		props.add(new StreetProperty("Pentonville Road", cyan, 120, 50, 8, 40, 100, 300, 450, 600));
+		props.add(jail);
+		props.add(new StreetProperty("Pall Mall", purple, 140, 100, 10, 50, 150, 450, 625, 750));
+		props.add(new UtilityProperty("Electric Company", utility, 150));
+		props.add(new StreetProperty("White Hall", purple, 140, 100, 10, 50, 150, 450, 625, 750));
+		props.add(new StreetProperty("Northumberland Avenue", purple, 160, 100, 12, 60, 180, 500, 700, 900));
+		props.add(new RailroadProperty("Marylebone Station", railroad, 200,50));
+		props.add(new StreetProperty("Bow Street", orange, 180, 100, 14, 70, 200, 550, 750, 950));
+		props.add(new CommunityChestProperty("Community Chest", game.getCommunityChestCards() ));
+		props.add(new StreetProperty("Marlborough St", orange, 180, 100, 14, 70, 200, 550, 750, 950));
+		props.add(new StreetProperty("Vine St", orange, 200, 100, 16, 80, 220, 600, 800, 1000));
+		props.add(new ParkingProperty("Free Parking"));
+		props.add(new StreetProperty("Strand", red, 220, 150, 18, 90, 250, 700, 875, 1050));
+		props.add(new ChanceProperty("Chance", game.getChanceCards() ));
+		props.add(new StreetProperty("Fleet Street", red, 220, 150, 18, 90, 250, 700, 875, 1050));
+		props.add(new StreetProperty("Trafalgar Square", red, 240, 150, 20, 100, 300, 750, 925, 1100));
+		props.add(new RailroadProperty("Fenchurch Street Station", railroad, 200,50));
+		props.add(new StreetProperty("Leicester Square", yellow, 260, 150, 22, 110, 330, 800, 975, 1150));
+		props.add(new StreetProperty("Coventry Street", yellow, 260, 150, 22, 110, 330, 800, 975, 1150));
+		props.add(new UtilityProperty("Water Works", utility, 150));
+		props.add(new StreetProperty("Picadilly", yellow, 280, 150, 24, 120, 360, 850, 1025, 1200));
+		props.add(new SendToJailProperty("Go To Jail", jail));
+		props.add(new StreetProperty("Regent Street", green, 300, 200, 26, 130, 390, 900, 1100, 1275));
+		props.add(new StreetProperty("Oxford Street", green, 300, 200, 26, 130, 390, 900, 1100, 1275));
+		props.add(new CommunityChestProperty("Community Chest", game.getCommunityChestCards() ));
+		props.add(new StreetProperty("Bond Street", green, 320, 200, 28, 150, 450, 1000, 1200, 1400));
+		props.add(new RailroadProperty("Liverpool Street Station", railroad, 200,50));
+		props.add(new ChanceProperty("Chance", game.getChanceCards() ));
+		props.add(new StreetProperty("Park Lane", blue, 350, 200, 35, 175, 500, 1100, 1300, 1500));
+		props.add(new TaxProperty("Super Tax", 100, 0));
+		props.add(new StreetProperty("Mayfair", blue, 400, 200, 50, 200, 600, 1400, 1700, 2000));
+
+		
+
+
+
+LOC
+(group num), (name)
+
+CARD
+- Sequence of Instructions
+
+INSTRUCTION TYPE
+1. PLAYER_CASH_ADJUST (amt)
+2. PLAYER_CASH_ADJUST_RIVALS (amt)
+3. PLAYER_CASH_ADJUST_NETWORTH_PERCENT (perc)
+4. PLAYER_CASH_ADJUST_HOUSES (amt,amt)
+5. PLAYER_RELOCATE (loc or group)
+5a. PAY_LANDLORD_DICE_MULTIPLE (numdice,mult)
+5b. PAY_LANDLORD_RENT_MULTIPLE (mult)
+6. PLAYER_ESCAPE_STICKY (group)
+
+

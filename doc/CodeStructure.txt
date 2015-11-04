@@ -1,0 +1,38 @@
+Design of Malibu
+
+[Client]
+  Model
+    - for now, same as server
+    - Eventually: cut down version of model suitable for the 
+      client's consumption.  Some things may not be visible to the
+      client - eg other players hands, bank, etc.
+
+  Client Controller
+  
+  View
+  
+
+  ConsoleController (ClientController)
+    - controls a ConsoleView
+    - has 1 thread to manage user input and update display at each prompt
+      
+  GUIController (ClientController)
+    - controls the GUI View
+    - might have many threads to process kb/mouse input and repaint display
+
+[Server]
+  Model
+    - encodes every single state in the game
+      
+  Controller
+    - registers action handlers with client controllers
+    - runs the game loop in 1 thread
+    - publishes model updates to client controllers
+    - receive actions from client controllers in action handlers
+      and process them as part of the game loop
+
+  View
+    - no view
+    - OR: view is simply the interface with clients, ie.
+      "drawing view" is publishing the model to clients
+      

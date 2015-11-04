@@ -1,0 +1,25 @@
+
+
+
+
+
+GROUP
+(num) (name)
+
+LOC
+(group num), (name)
+
+CARD
+- Sequence of Instructions
+
+INSTRUCTION TYPE
+1. PLAYER_CASH_ADJUST (amt)
+2. PLAYER_CASH_ADJUST_RIVALS (amt)
+3. PLAYER_CASH_ADJUST_NETWORTH_PERCENT (perc)
+4. PLAYER_CASH_ADJUST_HOUSES (amt,amt)
+5. PLAYER_RELOCATE (loc or group)
+5a. PAY_LANDLORD_DICE_MULTIPLE (numdice,mult)
+5b. PAY_LANDLORD_RENT_MULTIPLE (mult)
+6. PLAYER_ESCAPE_STICKY (group)
+
+

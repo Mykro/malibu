@@ -1,0 +1,366 @@
+{ "board": {
+	"locations": [
+		{
+			"position": 0,
+			"title": "GO",
+			"type": "SPECIAL",
+			"special_pass_income": 200,
+		},{
+			"position": 1,
+			"title": "Old Kent Road",
+			"type": "MARKET",
+			"group": "brown",
+			"purchase_price": 60,
+			"house_cost": 50,
+			"rents": [ 2, 10, 30, 90, 160, 250 ]
+		},{
+			"position": 2,
+			"title": "Community Chest",
+			"type": "SPECIAL",
+			"special_cardpile": 1
+		},{
+			"position": 3,
+			"title": "Whitechapel Road",
+			"type": "MARKET",
+			"group": "brown",
+			"purchase_price": 60,
+			"house_cost": 50,
+			"rents": [ 4, 20, 60, 180, 320, 450 ]
+		},{
+			"position": 4,
+			"title": "Income Tax",
+			"type": "SPECIAL",
+			"special_tax_amount": 200,
+			"special_tax_wealth_multiple": 0.1
+		},{
+			"position": 5,
+			"title": "Kings Cross Station",
+			"type": "MARKET",
+			"group": "railroad",
+			"purchase_price": 200,
+			"rents": [ 50 ]
+		},{
+			"position": 6,
+			"title": "The Angel Islington",
+			"type": "MARKET",
+			"group": "cyan",
+			"purchase_price": 100,
+			"house_cost": 50,
+			"rents": [ 6, 30, 90, 270, 400, 550 ]
+		},{
+			"position": 7,
+			"title": "Chance",
+			"type": "SPECIAL",
+			"special_cardpile": 2
+		},{
+			"position": 8,
+			"title": "Euston Road",
+			"type": "MARKET",
+			"group": "cyan",
+			"purchase_price": 100,
+			"house_cost": 50,
+			"rents": [ 6, 30, 90, 270, 400, 550 ]
+		},{
+			"position": 9,
+			"title": "Pentonville Road",
+			"type": "MARKET",
+			"group": "cyan",
+			"purchase_price": 120,
+			"house_cost": 50,
+			"rents": [ 8, 40, 100, 300, 450, 600 ]
+		},{
+			"position": 10,
+			"title": "Just Visiting",
+			"type": "JAIL",
+			"jail_title": "Jail",
+			"jail_fee": 50,
+		},{
+			"position": 11,
+			"title": "Pall Mall",
+			"type": "MARKET",
+			"group": "purple",
+			"purchase_price": 140,
+			"house_cost": 100,
+			"rents": [ 10, 50, 150, 450, 625, 750 ]
+		},{
+			"position": 12,
+			"title": "Electric Company",
+			"type": "MARKET",
+			"group": "utility",
+			"purchase_price": 150,
+			"rents_dice": [ 4, 10 ]
+		},{
+			"position": 13,
+			"title": "White Hall",
+			"type": "MARKET",
+			"group": "purple",
+			"purchase_price": 140,
+			"house_cost": 100,
+			"rents": [ 10, 50, 150, 450, 625, 750 ]
+		},{
+			"position": 14,
+			"title": "Northumberland Avenue",
+			"type": "MARKET",
+			"group": "purple",
+			"purchase_price": 160,
+			"house_cost": 100,
+			"rents": [ 12, 60, 180, 500, 700, 900 ]
+		},{
+			"position": 15,
+			"title": "Marylebone Station",
+			"type": "MARKET",
+			"group": "railroad",
+			"purchase_price": 200,
+			"rents": [ 50 ]
+		},{
+			"position": 16,
+			"title": "Bow Street",
+			"type": "MARKET",
+			"group": "orange",
+			"purchase_price": 180,
+			"house_cost": 100,
+			"rents": [ 14, 70, 200, 550, 750, 950 ]
+		},{
+			"position": 17,
+			"title": "Community Chest",
+			"type": "SPECIAL",
+			"special_cardpile": 1
+		},{
+			"position": 18,
+			"title": "Marlborough Street",
+			"type": "MARKET",
+			"group": "orange",
+			"purchase_price": 180,
+			"house_cost": 100,
+			"rents": [ 14, 70, 200, 550, 750, 950 ]
+		},{
+			"position": 19,
+			"title": "Vine Street",
+			"type": "MARKET",
+			"group": "orange",
+			"purchase_price": 200,
+			"house_cost": 100,
+			"rents": [ 16, 80, 220, 600, 800, 1000 ]
+		},{
+			"position": 20,
+			"title": "Free Parking",
+			"type": "SPECIAL",
+			"special_stash": 1
+		},{
+			"position": 21,
+			"title": "Strand",
+			"type": "MARKET",
+			"group": "red",
+			"purchase_price": 220,
+			"house_cost": 150,
+			"rents": [ 18, 90, 250, 700, 875, 1050 ]
+		},{
+			"position": 22,
+			"title": "Chance",
+			"type": "SPECIAL",
+			"special_cardpile": 2
+		},{
+			"position": 23,
+			"title": "Fleet Street",
+			"type": "MARKET",
+			"group": "red",
+			"purchase_price": 220,
+			"house_cost": 150,
+			"rents": [ 18, 90, 250, 700, 875, 1050 ]
+		},{
+			"position": 24,
+			"title": "Trafalgar Square",
+			"type": "MARKET",
+			"group": "red",
+			"purchase_price": 240,
+			"house_cost": 150,
+			"rents": [ 20, 100, 300, 750, 925, 1100 ]
+		},{
+			"position": 25,
+			"title": "Fenchurch Street Station",
+			"type": "MARKET",
+			"group": "railroad",
+			"purchase_price": 200,
+			"rents": [ 50 ]
+		},{
+			"position": 26,
+			"title": "Leicester Square",
+			"type": "MARKET",
+			"group": "yellow",
+			"purchase_price": 260,
+			"house_cost": 150,
+			"rents": [ 22, 110, 330, 800, 975, 1150 ]
+		},{
+			"position": 27,
+			"title": "Coventry Street",
+			"type": "MARKET",
+			"group": "yellow",
+			"purchase_price": 260,
+			"house_cost": 150,
+			"rents": [ 22, 110, 330, 800, 975, 1150 ]
+		},{
+			"position": 28,
+			"title": "Water Works",
+			"type": "MARKET",
+			"group": "utility",
+			"purchase_price": 150,
+			"rents_dice": [ 4, 10 ]
+		},{
+			"position": 29,
+			"title": "Picadilly",
+			"type": "MARKET",
+			"group": "yellow",
+			"purchase_price": 280,
+			"house_cost": 150,
+			"rents": [ 24, 120, 360, 850, 1025, 1200 ]
+		},{
+			"position": 30,
+			"title": "Go To Jail",
+			"type": "SPECIAL",
+			"special_jail_position": 10
+		},{
+			"position": 31,
+			"title": "Regent Street",
+			"type": "MARKET",
+			"group": "green",
+			"purchase_price": 300,
+			"house_cost": 200,
+			"rents": [ 26, 130, 390, 900, 1100, 1275 ]
+		},{
+			"position": 32,
+			"title": "Oxford Street",
+			"type": "MARKET",
+			"group": "green",
+			"purchase_price": 300,
+			"house_cost": 200,
+			"rents": [ 26, 130, 390, 900, 1100, 1275 ]
+		},{
+			"position": 33,
+			"title": "Community Chest",
+			"type": "SPECIAL",
+			"special_cardpile": 1
+		},{
+			"position": 34,
+			"title": "Bond Street",
+			"type": "MARKET",
+			"group": "green",
+			"purchase_price": 320,
+			"house_cost": 200,
+			"rents": [ 28, 150, 450, 1000, 1200, 1400 ]
+		},{
+			"position": 35,
+			"title": "Liverpool Street Station",
+			"type": "MARKET",
+			"group": "railroad",
+			"purchase_price": 200,
+			"rents": [ 50 ]
+		},{
+			"position": 36,
+			"title": "Chance",
+			"type": "SPECIAL",
+			"special_cardpile": 2
+		},{
+			"position": 37,
+			"title": "Park Lane",
+			"type": "MARKET",
+			"group": "blue",
+			"purchase_price": 350,
+			"house_cost": 200,
+			"rents": [ 35, 175, 500, 1100, 1300, 1500 ]
+		},{
+			"position": 38,
+			"title": "Super Tax",
+			"type": "SPECIAL",
+			"special_tax_amount": 100
+		},{
+			"position": 39,
+			"title": "Mayfair",
+			"type": "MARKET",
+			"group": "blue",
+			"purchase_price": 400,
+			"house_cost": 200,
+			"rents": [ 50, 200, 600, 1400, 1700, 2000 ]
+		}
+	],
+	"cardpiles": [
+		{
+			"id": 1
+			"title": "Community Chest cards"
+			"cards": [
+				{
+					"description" : "Advance to GO (Collect $200)",
+					"type": "advance"
+					"advance_position": 0
+				},{
+					"description" : "Bank error in your favour - Collect $75",
+					"type": "amount_from_bank",
+					"amount": 75
+				},{
+					"description" : "Doctor's fees - Pay $50",
+					"type": "amount_from_bank",
+					"amount": -50
+				},{
+					"description" : "Get out of jail free.  This card may be kept until needed, or sold",
+					"type": "getoutofjailfree"
+				},{
+					"description" : "Go to jail.  Go directly to jail.  Do not pass Go, do not collect $200",
+					"type": "gotojail"
+				},{
+					"description" : "It is your birthday Collect $10 from each player",
+					"type": "amount_from_players",
+					"amount": 10
+				},{
+					"description" : "Income Tax Refund - collect $20",
+					"type": "amount_from_bank",
+					"amount": 20
+				},{
+					"description" : "Life Insurance Matures.  Collect $100",
+					"type": "amount_from_bank",
+					"amount": 100
+				},{
+					"description" : "Pay Hospital Fees of $100",
+					"type": "amount_from_bank",
+					"amount": -100
+				},{
+					"description" : "Pay School Fees of $50",
+					"type": "amount_from_bank",
+					"amount": -50
+				},{
+					"description" : "Receive for services $25",
+					"type": "amount_from_bank",
+					"amount": 25
+				},{
+					"description" : ""You are assessed for street repairs - $40 per house, $115 per hotel",
+					"type": "repairs",
+					"repair_house_cost": 40,
+					"repair_hotel_cost": 115
+				},{
+					"description" : "You have won second prize in a beauty contest.   Collect $10",
+					"type": "amount_from_bank",
+					"amount": 10
+				},{
+					"description" : "You inherit $100",
+					"type": "amount_from_bank",
+					"amount": 100
+				},{
+					"description" : "From sale of stock you get $50.",
+					"type": "amount_from_bank",
+					"amount": 50
+				},{
+					"description" : "Holiday fund matures.  You inherit $100",
+					"type": "amount_from_bank",
+					"amount": 100
+				}
+			;
+			]
+		},{
+			"id": 2
+			"title": "Chance cards"
+			"cards": [
+				{
+				}
+			]
+		}
+	]
+}}
+

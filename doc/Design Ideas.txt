@@ -1,0 +1,56 @@
+Server
+======
+
+
+IO
+==
+
+1) Global IO.  
+
+- On connect
+  - Server reports identity and version.
+- Client sends identity, version and Agent Name (once only per connection)
+  - Server rejects Agent Name if it is non-unique,
+  - ELSE Server accepts Agent Name and permits access to other commands.
+- Client requests Agent List
+  - Server returns Agent List
+- Client requests Session List
+  - Server returns Session List
+- Client requests to join Session
+  - Server validates request for that Session.
+  - Server registers the Agent for that Session.
+  - Server provides Session ID.
+- Client requests to create a Session
+  - Server provides Session ID.
+
+2) Session IO.  This is maintained only during the life of a Session.
+
+- On connect
+  - Server reports identity and version, and session information.
+
+
+Lobby Phase
+- Gather entities
+- Initialise World
+- Start Session
+
+
+Glossary
+========
+World - the modelled space.
+Engine - controls the World.
+Session - an instance of Engine + World + Agents that is underway.
+
+server.controller - manages the meta-space (IO connections, etc).
+server.controller.engine - manipulates the world.
+server.controller.io - manages the connections with clients
+common.model.World - models a snapshot of the "world".
+
+
+
+Resources
+=========
+Netty tutorial: http://seeallhearall.blogspot.com.au/2012/05/netty-tutorial-part-1-introduction-to.html
+Sending whole state vs sending delta to clients: http://fabiensanglard.net/quake3/network.php
+
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="all" name="malibu">
+	
+	<!--((((( PROPERTIES )))))-->
+	<property name="javac-path" value="${path.javac}"/>
+	<property name="javac-version" value="1.6"/>
+	<property name="javac-debug" value="on"/>
+	<property name="compile-common-output-dir" value="common/target"/>
+	<property name="compile-server-output-dir" value="server/target"/>
+	<property name="compile-client-output-dir" value="client/target"/>
+	<property name="server-resource-dir" value="server/src/main/resources"/>
+	
+	<!--((((( MACROS )))))-->
+	
+	<!-- Check for a mandatory file -->
+	<macrodef name="check-file-exists">
+		<attribute name="file"/>
+		<sequential>
+			<fail message="Aborted. An expected file does not exist: @{file}">
+				<condition>
+					<not><available file="@{file}"/></not>
+				</condition>
+			</fail>		
+		</sequential>
+	</macrodef>
+	
+	<!--((((( STANDARD ANT TARGETS )))))-->
+
+	<target name="all" depends="clean,compile" description="Build everything." >
+	</target>
+
+	<target name="clean" description="Delete all generated files." >
+	
+	</target>
+
+	<target name="compile" depends="compile-common,compile-server,compile-client" description="Compile everything." >
+	
+	</target>
+
+	<!--((((( CUSTOM TARGETS )))))-->
+	
+	<target name="compile-common" description="Compile the common libraries." >
+		<mkdir dir="${compile-common-output-dir}/classes"/>
+		<javac debug="${javac-debug}" destdir="${compile-common-output-dir}/classes" 
+			   source="${javac-version}" target="${javac-version}" executable="${javac-path}">
+			<src path="common/src/main/java"/>
+		</javac>
+		<jar basedir="${compile-common-output-dir}/classes" jarfile="${compile-common-output-dir}/distribution/malibu-common.jar"/>
+	</target>
+
+	<target name="check-compiled-common" description="Check that the compiled library is in the expected location.">
+		<check-file-exists file="${compile-common-output-dir}/malibu-common.jar"/>
+	</target>
+	
+	<target name="compile-server" depends="check-compiled-common" description="Compile the server." >
+		<mkdir dir="${compile-server-output-dir}/classes"/>
+		<javac debug="${javac-debug}" destdir="${compile-server-output-dir}/classes" 
+			   source="${javac-version}" target="${javac-version}" executable="${javac-path}">
+			<src path="server/src/main/java"/>
+			<classpath path="common/target/classes"/>
+		</javac>
+		<jar basedir="${compile-server-output-dir}/classes" jarfile="${compile-server-output-dir}/distribution/malibu-server.jar"/>
+
+		<copy file="${compile-common-output-dir}/malibu-common.jar" todir="${compile-server-output-dir}/distribution" />
+
+		<copy todir="${compile-server-output-dir}/distribution">
+			<fileset dir="${server-resource-dir}"/>
+		</copy>
+	</target>
+	
+	<target name="compile-client" depends="check-compiled-common" description="Compile the client." >
+	
+	
+	</target>
+	
+</project>
